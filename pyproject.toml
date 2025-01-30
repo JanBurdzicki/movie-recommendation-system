@@ -3,6 +3,7 @@ name = "movie-recommendation-system"
 version = "0.1.0"
 description = "Recommendation System project for LLM course"
 authors = ["Your Name <you@example.com>"]
+packages = [{include = "recommender"}]
 license = "MIT"
 readme = "README.md"
 
