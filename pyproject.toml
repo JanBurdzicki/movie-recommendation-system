@@ -11,6 +11,9 @@ python = "^3.10"
 fastapi = "^0.115.6"
 uvicorn = "^0.34.0"
 transformers = "^4.48.1"
+sqlalchemy = "^2.0.37"
+passlib = "^1.7.4"
+psycopg2-binary = "^2.9.10"
 
 
 [build-system]

@@ -1,0 +1,1 @@
+CREATE USER username WITH SUPERUSER PASSWORD 'password';
