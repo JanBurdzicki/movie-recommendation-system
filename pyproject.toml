@@ -14,6 +14,7 @@ transformers = "^4.48.1"
 sqlalchemy = "^2.0.37"
 passlib = "^1.7.4"
 psycopg2-binary = "^2.9.10"
+python-dotenv = "^1.0.1"
 
 
 [build-system]
