@@ -21,7 +21,7 @@ class Database:
     # def close_connection(connection):
     #     connection.close()
 
-    def get_url():
+    def get_url(self):
         return f"postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.dbname}"
 
     def create_database(self):
