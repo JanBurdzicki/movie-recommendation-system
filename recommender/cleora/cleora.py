@@ -48,13 +48,15 @@ def recommend_movies(cleora: Cleora, user_id: int, top_n: int=5, threshold: floa
     user_node = f"U{user_id}"
 
     if user_node not in embeddings:
+        print(f"User {user_node} not found in the database. Trying to find it.")
         return []
 
     user_embedding = embeddings[user_node]
     similarities = {}
-
+    sims = []
     for other_user in [n for n in cleora.node_list if n.startswith("U") and n != user_node]:
         sim = 1 - cosine(user_embedding, embeddings[other_user])
+        sims.append(sim)
         if sim >= threshold:
             similarities[other_user] = sim
 
@@ -67,15 +69,57 @@ def recommend_movies(cleora: Cleora, user_id: int, top_n: int=5, threshold: floa
         similar_user_movies = set(nx.neighbors(cleora.graph, similar_user))
         recommended_movies.update(similar_user_movies - user_movies)
 
-    return list(recommended_movies)[:top_n]
+    return [cleora.node_to_index[movie] for movie in list(recommended_movies)[:top_n]]
+
+
+def get_watched_movies(session, user_id):
+    """Fetch movies a user has watched along with their ratings."""
+    from src.model.utils import Rating, Movie  # Ensure correct import paths
+
+    watched_movies = (
+        session.query(Movie.title, Rating.rating)
+        .join(Rating, Rating.movie_id == Movie.id)
+        .filter(Rating.user_id == user_id)
+        .all()
+    )
+    return watched_movies
+
 
 if __name__ == '__main__':
     graph = create_graph()
 
-    cleora = Cleora(graph, embedding_dim=128, iterations=23)
+    cleora = Cleora(graph, embedding_dim=128, iterations=11)
     embeddings = cleora.compute_embeddings()
 
+    from sqlalchemy.orm import sessionmaker
+    from sqlalchemy import create_engine
+    from src.model.utils import Movie
+
     save_user_embeddings(embeddings, "user_embeddings.pkl")
-    for i in range(101, 110):
-        recommended_movies = recommend_movies(cleora, user_id=i, top_n=8)
-        print(i, ":", recommended_movies)
+
+    DATABASE_URL = "postgresql://username:password@localhost/recommender"
+    engine = create_engine(DATABASE_URL)
+    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    session = SessionLocal()
+
+    for i in range(1, 2):
+        i = 30
+        watched_movies = get_watched_movies(session, user_id=i)
+        recommended_movies_ids = recommend_movies(cleora, user_id=i, top_n=8)
+
+        movies = session.query(Movie).all()
+        recommended_movies = [str(movie.title) for movie in movies if movie.id in recommended_movies_ids]
+
+        if watched_movies or recommended_movies:
+            print(f"\nUser {i} Watched Movies, Ratings, and Recommendations:")
+
+            # Zip the lists to align them in columns
+            max_len = max(len(watched_movies), len(recommended_movies))
+            watched_movies_padded = watched_movies + [("", "")] * (max_len - len(watched_movies))
+            recommended_movies_padded = recommended_movies + [""] * (max_len - len(recommended_movies))
+
+            print("\n{:<40} {:<10} {:<40}".format("Watched Movie", "Rating", "Recommended Movie"))
+            print("-" * 90)
+
+            for (watched, rating), recommended in zip(watched_movies_padded, recommended_movies_padded):
+                print("{:<40} {:<10} {:<40}".format(watched, rating, recommended))

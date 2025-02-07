@@ -68,7 +68,7 @@ if __name__ == "__main__":
         rated_movies = random.sample(movies, min(ratings_per_user, len(movies)))
         for movie in rated_movies:
             avg_movie_rating = movie.rating if movie.rating is not None else 5.0
-            noise = random.uniform(-1.5, 1.5)
+            noise = random.uniform(-1, 2)
             rating_value = round(max(1, min(10, avg_movie_rating + noise)), 1)
             rating = Rating(user_id=user.id, movie_id=movie.id, rating=rating_value)
             session.add(rating)
