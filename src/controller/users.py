@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 
 from model.utils import Database
+from model.utils import User
 
 router = APIRouter()
 templates = Jinja2Templates(directory="src/view")

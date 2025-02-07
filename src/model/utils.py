@@ -10,30 +10,6 @@ from sqlalchemy.orm import sessionmaker, Session, relationship
 
 load_dotenv()
 
-# schemas
-class UserRegister(BaseModel):
-    username: str
-    password: str
-
-class UserLogin(BaseModel):
-    username: str
-    password: str
-
-class MovieSchema(BaseModel):
-    id: int
-    title: str
-    genre: str
-    genre: str
-    overview: str
-    rating: float
-    director: str
-    actors: str
-
-class RatingSchema(BaseModel):
-    movie_id: int
-    rating: float
-
-
 class Database:
     def __init__(self):
         self.db_name = os.getenv("DB_NAME")
