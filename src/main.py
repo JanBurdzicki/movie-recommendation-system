@@ -1,5 +1,4 @@
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, status
-from passlib.context import CryptContext
 import uvicorn
 
 from controller.main import router as main_router
@@ -7,9 +6,6 @@ from controller.movies import router as movies_router
 from controller.ratings import router as ratings_router
 # from controller.recommendations import router as recommendations_router
 from controller.users import router as users_router
-
-# password hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 app = FastAPI()
 
