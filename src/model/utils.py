@@ -57,14 +57,6 @@ class Database:
         """Returns a new database session."""
         return self.SessionLocal()
 
-    def get_db(self):
-        """Dependency for getting a database session in FastAPI."""
-        db = self.SessionLocal()
-        try:
-            yield db
-        finally:
-            db.close()
-
     def create_tables(self, base):
         """Creates tables using the provided SQLAlchemy ORM Base."""
         try:
@@ -103,5 +95,15 @@ class Rating(Base):
     movie = relationship("Movie")
 
 
+def get_db():
+    """Dependency for getting a database session in FastAPI."""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 db = Database()
 db.create_tables(Base)
+
+SessionLocal = db.SessionLocal

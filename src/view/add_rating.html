@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Rating for a Movie</title>
+</head>
+<body>
+    <h1>Add Rating for a Movie</h1>
+    <form method="POST" action="/ratings">
+      <label for="movie_id">Movie ID:</label>
+      <input type="number" name="movie_id" required>
+
+      <label for="rating">Rating:</label>
+      <input type="number" name="rating" step="0.1" min="0" max="10" required>
+
+      <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

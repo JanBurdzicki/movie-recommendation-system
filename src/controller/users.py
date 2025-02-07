@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from passlib.context import CryptContext
 
-from model.utils import Database
+from model.utils import get_db
 from model.utils import User
 
 router = APIRouter()
@@ -29,7 +29,7 @@ async def register(
     request: Request,
     username: str = Form(...),
     password: str = Form(...),
-    db: Session = Depends(Database.get_db)
+    db: Session = Depends(get_db)
 ):
     db_user = db.query(User).filter(User.username == username).first()
     if db_user:
@@ -49,7 +49,7 @@ async def login(
     request: Request,
     username: str = Form(...),
     password: str = Form(...),
-    db: Session = Depends(Database.get_db)
+    db: Session = Depends(get_db)
 ):
     db_user = db.query(User).filter(User.username == username).first()
     if not db_user or not pwd_context.verify(password, db_user.password_hash):
