@@ -31,11 +31,11 @@ def add_rating(
     db.commit()
     return {"message": "Rating added successfully"}
 
-@router.get("/user", response_class=HTMLResponse)
-def get_user_ratings(request: Request, db: Session = Depends(get_db)):
-    user_id = get_current_user()
-    if user_id == None:
-        raise HTTPException(status_code=400, detail=f"User is not logged in")
+@router.get("/user/{user_id}", response_class=HTMLResponse)
+def get_user_ratings(request: Request, user_id: int, db: Session = Depends(get_db)):
+    # user_id = get_current_user()
+    # if user_id == None:
+        # raise HTTPException(status_code=400, detail=f"User is not logged in")
 
     ratings = db.query(Rating).filter(Rating.user_id == user_id).all()
     return templates.TemplateResponse("ratings.html", {"request": request, "ratings": ratings})

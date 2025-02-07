@@ -83,6 +83,8 @@ class Movie(Base):
     rating = Column(Float)
     director = Column(String)
     actors = Column(String)
+    poster_link = Column(String)
+    year = Column(String)
 
 class Rating(Base):
     __tablename__ = "ratings"
