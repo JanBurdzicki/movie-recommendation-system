@@ -95,6 +95,15 @@ class Rating(Base):
     movie = relationship("Movie")
 
 
+current_user_id = None
+
+def set_current_user(user_id):
+    global current_user_id
+    current_user_id = user_id
+
+def get_current_user():
+    return current_user_id
+
 def get_db():
     """Dependency for getting a database session in FastAPI."""
     db = SessionLocal()
@@ -107,3 +116,4 @@ db = Database()
 db.create_tables(Base)
 
 SessionLocal = db.SessionLocal
+

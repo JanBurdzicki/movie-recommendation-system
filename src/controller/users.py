@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Request, HTTPException
+from fastapi import APIRouter, Depends, Request, HTTPException, status
 from fastapi import Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -8,6 +8,7 @@ from passlib.context import CryptContext
 
 from model.utils import get_db
 from model.utils import User
+from model.utils import get_current_user, set_current_user
 
 router = APIRouter()
 templates = Jinja2Templates(directory="src/view")
@@ -23,6 +24,11 @@ async def read_register(request: Request):
 @router.get("/login", response_class=HTMLResponse)
 async def read_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
+
+@router.get("/me", response_class=HTMLResponse)
+async def read_user_me(request: Request):
+    user_id = get_current_user()
+    return templates.TemplateResponse("user_me.html", {"request": request, "user_id": user_id})
 
 @router.post("/register")
 async def register(
@@ -55,6 +61,8 @@ async def login(
     if not db_user or not pwd_context.verify(password, db_user.password_hash):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
         # return templates.TemplateResponse("login.html", {"request": request, "error": "Invalid credentials"})
+
+    set_current_user(db_user.id)
 
     return {"message": "Login successful"}
     # return templates.TemplateResponse("dashboard.html", {"request": request, "user": db_user})

@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from model.utils import get_db
 from model.utils import Rating
+from model.utils import get_current_user
 
 router = APIRouter()
 templates = Jinja2Templates(directory="src/view")
@@ -21,12 +22,20 @@ def add_rating(
     rating: float = Form(...),
     db: Session = Depends(get_db)
 ):
-    new_rating = Rating(user_id=1, movie_id=movie_id, rating=rating)  # TODO: replace with authenticated user
+    user_id = get_current_user()
+    if user_id == None:
+        raise HTTPException(status_code=400, detail=f"User is not logged in")
+
+    new_rating = Rating(user_id=user_id, movie_id=movie_id, rating=rating)
     db.add(new_rating)
     db.commit()
     return {"message": "Rating added successfully"}
 
 @router.get("/user", response_class=HTMLResponse)
 def get_user_ratings(request: Request, db: Session = Depends(get_db)):
-    ratings = db.query(Rating).filter(Rating.user_id == 1).all()  # TODO: replace with authenticated user
+    user_id = get_current_user()
+    if user_id == None:
+        raise HTTPException(status_code=400, detail=f"User is not logged in")
+
+    ratings = db.query(Rating).filter(Rating.user_id == user_id).all()
     return templates.TemplateResponse("ratings.html", {"request": request, "ratings": ratings})
