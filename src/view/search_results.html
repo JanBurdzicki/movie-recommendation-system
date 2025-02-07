@@ -6,11 +6,23 @@
     <title>Search Results</title>
 </head>
 <body>
+    <h1>Search Movies</h1>
+    <form method="POST" action="/movies/search">
+        <input type="text" name="query" placeholder="Enter movie title..." required>
+        <button type="submit">Search</button>
+    </form>
+
     <h1>Search Results</h1>
     <ul>
-        {% for movie in movies %}
-        <li><a href="/movies/{{ movie.id }}">{{ movie.title }}</a></li>
-        {% endfor %}
+        {% if movies %}
+            <ul>
+                {% for movie in movies %}
+                    <li><a href="/movies/{{ movie.id }}">{{ movie.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No movies found.</p>
+        {% endif %}
     </ul>
 </body>
 </html>
