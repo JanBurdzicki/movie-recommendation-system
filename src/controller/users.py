@@ -46,7 +46,7 @@ async def register(
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return {f"message": "User '{username}' registered successfully"}
+    return {"message": f"User '{username}' registered successfully"}
 
     # return templates.TemplateResponse("register_success.html", {"request": request, "user": user})
 
