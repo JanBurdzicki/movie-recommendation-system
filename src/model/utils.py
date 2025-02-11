@@ -1,14 +1,16 @@
 import os
-import psycopg2
-from psycopg2 import sql
-from dotenv import load_dotenv
-from pydantic import BaseModel
 
-from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
+import psycopg2
+from dotenv import load_dotenv
+from psycopg2 import sql
+from pydantic import BaseModel
+from sqlalchemy import (Column, Float, ForeignKey, Integer, String,
+                        create_engine)
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, Session, relationship
+from sqlalchemy.orm import Session, relationship, sessionmaker
 
 load_dotenv()
+
 
 class Database:
     def __init__(self):
@@ -29,10 +31,18 @@ class Database:
     def create_database(self):
         """Creates the PostgreSQL database if it does not exist."""
         try:
-            conn = psycopg2.connect(dbname="postgres", user=self.user, password=self.password, host=self.host, port=self.port)
+            conn = psycopg2.connect(
+                dbname="postgres",
+                user=self.user,
+                password=self.password,
+                host=self.host,
+                port=self.port,
+            )
             conn.autocommit = True
             cursor = conn.cursor()
-            cursor.execute(f"SELECT 1 FROM pg_database WHERE datname = '{self.db_name}'")
+            cursor.execute(
+                f"SELECT 1 FROM pg_database WHERE datname = '{self.db_name}'"
+            )
             exists = cursor.fetchone()
             if not exists:
                 cursor.execute(f"CREATE DATABASE {self.db_name};")
@@ -48,7 +58,9 @@ class Database:
         try:
             DATABASE_URL = self.get_url()
             self.engine = create_engine(DATABASE_URL, echo=True)
-            self.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
+            self.SessionLocal = sessionmaker(
+                autocommit=False, autoflush=False, bind=self.engine
+            )
             print(f"Connected to database '{self.db_name}'")
         except Exception as e:
             print(f"Error establishing connection: {e}")
@@ -68,11 +80,13 @@ class Database:
 
 Base = declarative_base()
 
+
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     password_hash = Column(String)
+
 
 class Movie(Base):
     __tablename__ = "movies"
@@ -85,6 +99,7 @@ class Movie(Base):
     actors = Column(String)
     poster_link = Column(String)
     year = Column(String)
+
 
 class Rating(Base):
     __tablename__ = "ratings"
@@ -99,12 +114,15 @@ class Rating(Base):
 
 current_user_id = None
 
+
 def set_current_user(user_id):
     global current_user_id
     current_user_id = user_id
 
+
 def get_current_user():
     return current_user_id
+
 
 def get_db():
     """Dependency for getting a database session in FastAPI."""
@@ -114,8 +132,8 @@ def get_db():
     finally:
         db.close()
 
+
 db = Database()
 db.create_tables(Base)
 
 SessionLocal = db.SessionLocal
-

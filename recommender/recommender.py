@@ -91,16 +91,14 @@ class RecommenderSystem:
             self.save_embedding(title, target_embedding)
             self._train_knn_model()
 
-        recommended_titles = []
+        recommended_items = []
         if self.knn_model is not None:
             distances, indices = self.knn_model.kneighbors(
-                [target_embedding], n_neighbors=num_recommendations
+                [target_embedding], n_neighbors=num_recommendations + 1
             )
-            recommended_titles = [
-                self.titles[idx] for idx in indices[0] if self.titles[idx] != title
-            ]
+            recommended_items = [idx for idx in indices[0] if self.titles[idx] != title]
 
-        return recommended_titles
+        return recommended_items[:num_recommendations]
 
 
 if __name__ == "__main__":

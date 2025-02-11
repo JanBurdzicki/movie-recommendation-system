@@ -1,8 +1,8 @@
 import networkx as nx
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
-from src.model.utils import User, Movie, Rating
+from src.model.utils import Movie, Rating, User
 
 
 def create_graph():
@@ -21,6 +21,8 @@ def create_graph():
     for movie in movies:
         graph.add_node(f"M{movie.id}", bipartite=1)
     for rating in ratings:
-        graph.add_edge(f"U{rating.user_id}", f"M{rating.movie_id}", weight=rating.rating)
+        graph.add_edge(
+            f"U{rating.user_id}", f"M{rating.movie_id}", weight=rating.rating
+        )
 
     return graph
