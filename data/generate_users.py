@@ -39,9 +39,11 @@ def create_movies_from_csv(csv_path):
             title=row.get("Series_Title", "Unknown"),
             genre=row.get("Genre", "Unknown"),
             overview=row.get("Overview", ""),
-            rating=row.get("IMDB Rating", 5.0),
+            rating=row.get("IMDB_Rating", 5.0),
             director=row.get("Director", "Unknown"),
             actors=row.get("Actors", "Unknown")
+            poster_link=row.get("Poster_Link", "https://pixel77.com/wp-content/uploads/2014/03/Funny-IMDb-404-Error-Pages-Based-on-Movie-Quotes-THUMB2.jpg")
+            year=row.get("Released_Year", "Unknown"),
         )
         session.add(movie)
 
