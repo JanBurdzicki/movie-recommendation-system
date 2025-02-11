@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Details</title>
+    <title>Add Rating for a Movie</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -25,26 +25,20 @@
     </nav>
 
     <div class="container mt-5">
-        <div class="card">
-            <div class="card-header text-center bg-dark text-white">
-                <h2>{{ movie.title }}</h2>
+        <h1 class="text-center mb-4">Add Rating for a Movie</h1>
+        <form method="POST" action="/ratings" class="bg-white p-4 rounded shadow-sm">
+            <div class="mb-3">
+                <label for="movie_id" class="form-label">Movie ID:</label>
+                <input type="number" name="movie_id" id="movie_id" class="form-control" required>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4 text-center">
-                        <img src="{{ movie.poster_link }}" alt="Poster of {{ movie.title }}" class="img-fluid rounded">
-                    </div>
-                    <div class="col-md-8">
-                        <p><strong><i class="bi bi-calendar"></i> Year:</strong> {{ movie.year }}</p>
-                        <p><strong><i class="bi bi-film"></i> Genre:</strong> {{ movie.genre }}</p>
-                        <p><strong><i class="bi bi-file-earmark-text"></i> Overview:</strong> {{ movie.overview }}</p>
-                        <p><strong><i class="bi bi-person-fill"></i> Director:</strong> {{ movie.director }}</p>
-                        <p><strong><i class="bi bi-person-lines-fill"></i> Actors:</strong> {{ movie.actors }}</p>
-                        <p><strong><i class="bi bi-star-fill"></i> Rating:</strong> {{ movie.rating }}</p>
-                    </div>
-                </div>
+
+            <div class="mb-3">
+                <label for="rating" class="form-label">Rating:</label>
+                <input type="number" name="rating" id="rating" class="form-control" step="0.1" min="0" max="10" required>
             </div>
-        </div>
+
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
