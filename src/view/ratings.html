@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Ratings</title>
+</head>
+<body>
+    <h1>Your Ratings</h1>
+    <ul>
+        {% for rating in ratings %}
+        <li>Movie ID: {{ rating.movie_id }} - Rating: {{ rating.rating }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
