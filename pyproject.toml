@@ -5,7 +5,6 @@ description = "Recommendation System project for LLM course"
 authors = ["Your Name <you@example.com>"]
 packages = [{include = "recommender"}]
 license = "MIT"
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -23,6 +22,7 @@ scikit-learn = "^1.6.1"
 pandas = "^2.2.3"
 black = "^25.1.0"
 isort = "^6.0.0"
+networkx = "^3.4.2"
 
 
 [build-system]
