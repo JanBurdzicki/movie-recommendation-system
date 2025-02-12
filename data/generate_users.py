@@ -11,7 +11,7 @@ from src.model.utils import Movie, Rating, User
 
 def generate_random_username(length=8):
     """Generate a random username."""
-    return ''.join(random.choices(string.ascii_lowercase, k=length))
+    return "".join(random.choices(string.ascii_lowercase, k=length))
 
 
 def create_dummy_users(n=10, session=None):
@@ -42,8 +42,11 @@ def create_movies_from_csv(csv_path):
             rating=row.get("IMDB_Rating", 5.0),
             director=row.get("Director", "Unknown"),
             actors=row.get("Actors", "Unknown"),
-            poster_link=row.get("Poster_Link", "https://pixel77.com/wp-content/uploads/2014/03/Funny-IMDb-404-Error-Pages-Based-on-Movie-Quotes-THUMB2.jpg"),
-            year=row.get("Released_Year", "Unknown")
+            poster_link=row.get(
+                "Poster_Link",
+                "https://pixel77.com/wp-content/uploads/2014/03/Funny-IMDb-404-Error-Pages-Based-on-Movie-Quotes-THUMB2.jpg",
+            ),
+            year=row.get("Released_Year", "Unknown"),
         )
         session.add(movie)
 
@@ -61,7 +64,9 @@ if __name__ == "__main__":
     session = Session(bind=engine)
 
     create_dummy_users(50, session)
-    create_movies_from_csv("/home/kabanosk/.cache/kagglehub/datasets/harshitshankhdhar/imdb-dataset-of-top-1000-movies-and-tv-shows/versions/1/imdb_top_1000.csv")
+    create_movies_from_csv(
+        "/home/kabanosk/.cache/kagglehub/datasets/harshitshankhdhar/imdb-dataset-of-top-1000-movies-and-tv-shows/versions/1/imdb_top_1000.csv"
+    )
     users = session.query(User).all()
     movies = session.query(Movie).all()
     ratings_per_user = random.randint(7, 12)

@@ -22,7 +22,7 @@ def download_and_process_csv(output_folder: str, model: str):
     )
     print("Path to dataset files:", path)
 
-    csv_path = os.path.join(path, model, "imdb_top_1000.csv")
+    csv_path = os.path.join(path, "imdb_top_1000.csv")
     if not os.path.exists(csv_path):
         raise FileNotFoundError("CSV file not found in the downloaded dataset.")
 
