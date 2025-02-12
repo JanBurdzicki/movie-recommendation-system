@@ -48,11 +48,11 @@
                             {% for movie in recommended_movies %}
                                 <div class="col mb-4">
                                     <div class="card h-100 shadow-sm">
-                                        <a href="/movies/{{ movie.id }}">
+                                        <a href="/movies/movie/{{ movie.id }}">
                                             <img src="{{ movie.poster_link }}" class="card-img-top movie-poster" alt="{{ movie.title }} poster">
                                         </a>
                                         <div class="card-body p-2 text-center">
-                                            <h5 class="card-title"><a href="/movies/{{ movie.id }}" class="text-decoration-none">{{ movie.title }} ({{ movie.year }})</a></h5>
+                                            <h5 class="card-title"><a href="/movies/movie/{{ movie.id }}" class="text-decoration-none">{{ movie.title }} ({{ movie.year }})</a></h5>
                                             <p class="card-text"><strong>Rating:</strong> {{ movie.rating }}</p>
                                         </div>
                                     </div>

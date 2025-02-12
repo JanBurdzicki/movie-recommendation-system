@@ -64,12 +64,12 @@
                 {% for rec in recommended_movies %}
                     <div class="col mb-4">
                         <div class="card h-100 shadow-sm">
-                            <a href="/movies/{{ rec.id }}">
+                            <a href="/movies/movie/{{ rec.id }}">
                                 <img src="{{ rec.poster_link }}" class="card-img-top movie-poster" alt="{{ rec.title }} poster">
                             </a>
                             <div class="card-body p-2 text-center">
                                 <h5 class="card-title">
-                                    <a href="/movies/{{ rec.id }}" class="text-decoration-none">{{ rec.title }} ({{ rec.year }})</a>
+                                    <a href="/movies/movie/{{ rec.id }}" class="text-decoration-none">{{ rec.title }} ({{ rec.year }})</a>
                                 </h5>
                                 <p class="card-text"><strong>Rating:</strong> {{ rec.rating }}</p>
                             </div>

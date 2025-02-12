@@ -10,7 +10,7 @@ router = APIRouter()
 templates = Jinja2Templates(directory="src/view")
 
 
-@router.get("/{movie_id}", response_class=HTMLResponse)
+@router.get("/movie/{movie_id}", response_class=HTMLResponse)
 async def get_movie(request: Request, movie_id: int, db: Session = Depends(get_db)):
     movie = db.query(Movie).filter(Movie.id == movie_id).first()
     if not movie:
